@@ -1,5 +1,5 @@
 {
     "prefix": "!",
     "time": "8:30 PM SERVER TIME (gmt+1)",
-    "deletion_timer" : 60000
+    "deletion_timer" : 10000
 }
