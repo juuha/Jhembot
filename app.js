@@ -10,11 +10,15 @@ fs.readdir("./commands/", (error, files) => {
     if (error) console.error(error)
     let jsfiles = files.filter(file => file.split(".").pop() == "js")
     if (jsfiles.length == 0) return
-    jsfiles.forEach((jsfile, i) => {
+    for (const jsfile of jsfiles) {
         let props = require(`./commands/${jsfile}`)
-        console.log(`${jsfile} command loaded.`)
-        bot.commands.set(props.help.name, props)
-    })
+        for (const key in props.help) {
+            console.log(`${props.help[key]} command loaded.`)
+        bot.commands.set(props.help[key], props)
+        }
+        
+        
+    }
 })
 
 bot.roles = require('./roles.json')
