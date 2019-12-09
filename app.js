@@ -16,8 +16,6 @@ fs.readdir("./commands/", (error, files) => {
             console.log(`${props.help[key]} command loaded.`)
         bot.commands.set(props.help[key], props)
         }
-        
-        
     }
 })
 
@@ -25,7 +23,7 @@ bot.roles = require('./roles.json')
 
 bot.on("ready", async () => {
     console.log(`${bot.user.username} is online and ready to serve! Running on ${bot.guilds.size} servers!`)
-    bot.user.setActivity("!help", { type: "PLAYING" })
+    bot.user.setActivity("!help", { type: "LISTENING" })
 })
 
 bot.on("message", async (message) => {
