@@ -11,7 +11,7 @@ module.exports = (bot, message) => {
     var removees = new Set()
     for (var [id, reaction] of message.reactions) {
         for (var [id, user] of reaction.users) {
-            if (user == bot.user) continue
+            if (user.id == bot.user.id) continue
             var emotion = ""
             for (role in bot.roles[message.guild.id]) {
                 if (reaction.emoji.name == bot.roles[message.guild.id][role]) {

@@ -18,7 +18,7 @@ module.exports.run = async (bot, message, args) => {
         } catch (error) { console.error(error) }
     }
     for (var [id, msg] of message_copy.channel.messages) {
-        if (msg.author.username != bot.user.username
+        if (msg.author.id != bot.user.id
             || msg.content.startsWith("⚔️")) {
             continue
         }

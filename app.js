@@ -26,8 +26,8 @@ bot.on("ready", async () => {
 
 bot.on("message", async (message) => {
     if (message.channel.type == "dm"
-        || (message.author.bot && message.author != bot.user)) return
-    if (message.author.username == bot.user.username
+        || (message.author.bot && message.author.id != bot.user.id)) return
+    if (message.author.id == bot.user.id
         && message.channel.name != "archive"
         && message.content.startsWith("> __**")) {
         for (role in bot.roles[message.guild.id]) {
@@ -60,7 +60,7 @@ bot.on("message", async (message) => {
 bot.on("messageReactionAdd", async (messageReaction, user) => {
     const { message } = messageReaction
     if (message.channel.type == "dm"
-        || message.author.username != bot.user.username
+        || message.author.id != bot.user.id
         || user.bot
         || message.channel.name == "archive") return
     if (message.content.startsWith("> __**")) {
@@ -82,7 +82,7 @@ bot.on("messageReactionAdd", async (messageReaction, user) => {
             message.delete(Config.deletion_timer)
         })
         for (var [id, msg] of message.channel.messages) {
-            if (msg.author == bot.user
+            if (msg.author.id == bot.user.id
                 && msg.content.startsWith("> __**")) {
                 try {
                     await msg.react(messageReaction.emoji)
@@ -95,7 +95,7 @@ bot.on("messageReactionAdd", async (messageReaction, user) => {
 bot.on("messageReactionRemove", async (messageReaction, user) => {
     const { message } = messageReaction
     if (message.channel.type == "dm"
-        || message.author.username != bot.user.username
+        || message.author.id != bot.user.id
         || user.bot
         || message.channel.name == "archive"
         || !message.content.startsWith("> __**")) return

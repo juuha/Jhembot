@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args) => {
     var emoji = bot.roles[message_copy.guild.id][role]
     delete bot.roles[message_copy.guild.id][role]
     for (var [id, msg] of message_copy.channel.messages) {
-        if (msg.author != bot.user) continue
+        if (msg.author.id != bot.user.id) continue
         for (var [id, reaction] of msg.reactions) {
             if (reaction.emoji != emoji) continue
             for (var [id, user] of reaction.users) {

@@ -8,7 +8,7 @@ module.exports.run = async (bot, message, args) => {
     } catch (error) { console.error(error) }
     let messages = await message_copy.channel.fetchMessages({ limit: 100 })
     for (const [id, messag] of messages) {
-        if (messag.author.username != bot.user.username
+        if (messag.author.id != bot.user.id
             || !messag.content.startsWith("> __**")) continue
 
         for (const [id, reaction] of messag.reactions) {
