@@ -71,7 +71,7 @@ bot.on("messageReactionAdd", async (messageReaction, user) => {
             await message.edit(schedule)
         } catch (error) { console.log(error) }
     } else if (message.content.startsWith("⚔️ What emoji")) {
-        var role = message.content.slice(38)
+        var role = message.content.slice(35)
         if (!bot.roles[message.guild.id]) {
             bot.roles[message.guild.id] = {}
         }
