@@ -1,0 +1,15 @@
+{
+  "name": "jhembot",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "app.js",
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jhem",
+  "license": "ISC"
+}
