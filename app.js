@@ -75,7 +75,6 @@ bot.on("messageReactionAdd", async (messageReaction, user) => {
         if (!bot.roles[message.guild.id]) {
             bot.roles[message.guild.id] = {}
         }
-        
         bot.roles[message.guild.id][role] = messageReaction.emoji.name
         fs.writeFile("./roles.json", JSON.stringify(bot.roles, null, 4), async (error) => {
             if (error) console.error(error)
@@ -96,9 +95,8 @@ bot.on("messageReactionAdd", async (messageReaction, user) => {
 
 bot.on("messageReactionRemove", async (messageReaction, user) => {
     const { message } = messageReaction
-    if (message.channel.type == "dm"
+    if (message.channel.type == "dm"     
         || message.author.id != bot.user.id
-        || user.bot
         || message.channel.name == "archive"
         || !message.content.startsWith("> __**")) return
     var schedule = createSchedule(bot, message)
