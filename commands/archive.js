@@ -27,8 +27,13 @@ module.exports.run = async (bot, message, args) => {
                 if (channel.name == "archive" && channel.type == "text") {
                     try {
                         await channel.send(msg.content)
-                        await msg.delete()
-                    } catch (error) { console.error(error) }
+                    } catch (error) {
+                        console.error(error)
+                    } finally {
+                        try {
+                            await msg.delete()
+                        } catch (error) { console.error(error) }
+                    }
                 }
             }
 
@@ -42,8 +47,14 @@ module.exports.run = async (bot, message, args) => {
                             .setColor(embed.color)
                         try {
                             await channel.send(embed2)
-                            await msg.delete()
-                        } catch (error) { console.error(error) }
+
+                        } catch (error) {
+                            console.error(error)
+                        } finally {
+                            try {
+                                await msg.delete()
+                            } catch (error) { console.error(error) }
+                        }
                     }
                 }
             }
