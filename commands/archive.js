@@ -1,5 +1,4 @@
 const Discord = require("discord.js")
-const Config = require("../config.json")
 
 module.exports.run = async (bot, message, args) => {
     var message_copy = message
