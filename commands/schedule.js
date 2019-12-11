@@ -22,11 +22,10 @@ module.exports.run = async (bot, message, args) => {
         day = week[message_copy.content.slice(1)]
     }
     if (day) {
-        date.setDate(date.getDate() + (day + 7 - date.getDay()) % 7)
+        date.setDate(date.getDate() + (7 - date.getDay()) % 7 + day)
     } else {
         date = new Date(args[0])
     }
-
 
     let roles = ""
     for (const role in bot.roles[message_copy.guild.id]) {
