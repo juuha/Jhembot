@@ -14,7 +14,7 @@ fs.readdir("./commands/", (error, files) => {
         let props = require(`./commands/${jsfile}`)
         for (const key in props.help) {
             console.log(`${props.help[key]} command loaded.`)
-        bot.commands.set(props.help[key], props)
+            bot.commands.set(props.help[key], props)
         }
     }
 })
@@ -94,7 +94,7 @@ bot.on("messageReactionAdd", async (messageReaction, user) => {
 
 bot.on("messageReactionRemove", async (messageReaction, user) => {
     const { message } = messageReaction
-    if (message.channel.type == "dm"     
+    if (message.channel.type == "dm"
         || message.author.id != bot.user.id
         || message.channel.name == "archive"
         || !message.content.startsWith("> __**")) return
