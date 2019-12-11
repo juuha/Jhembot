@@ -17,6 +17,8 @@ module.exports.run = async (bot, message, args) => {
 
     var role = args[0]
     var emoji = bot.roles[message_copy.guild.id][role]
+    let custom_emoji = bot.emojis.find(emoji => emoji.name === bot.roles[message_copy.guild.id][role])
+    if (custom_emoji) emoji = custom_emoji
     delete bot.roles[message_copy.guild.id][role]
     for (var [id, msg] of message_copy.channel.messages) {
         if (msg.author.id != bot.user.id) continue
