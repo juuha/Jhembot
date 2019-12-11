@@ -37,7 +37,7 @@ module.exports.run = async (bot, message, args) => {
         }
     }
     date = date.toDateString()
-    let schedule = `> __**${date}**__\n> **${Config[message_copy.guild.id].time}**\n Sign up by clicking one of the corresponding reactions! \n[0/10]\`\`\`${roles} \nBackups: \n---------------\nCan't make it: \`\`\``
+    let schedule = `> __**${date}**__\n> **${Config.time[message_copy.guild.id]}**\n Sign up by clicking one of the corresponding reactions! \n[0/10]\`\`\`${roles} \nBackups: \n---------------\nCan't make it: \`\`\``
     try {
         await message_copy.channel.send(schedule)
     } catch (error) { console.error(error) }

@@ -26,6 +26,21 @@ bot.on("ready", async () => {
     bot.user.setActivity("!help", { type: "LISTENING" })
 })
 
+bot.on("guildCreate", async (guild) => {
+    if (!bot.roles[guild.id]) {
+        bot.roles[guild.id] = {}
+        fs.writeFile("./roles.json", JSON.stringify(bot.roles, null, 4), async (error) => {
+            if (error) console.error(error)
+        })
+    }
+    if (!Config.time[guild.id]) {
+        Config.time[guild.id] = `##Set the default time with !settime <String with time>##`
+        fs.writeFile("./config.json", JSON.stringify(Config, null, 4), async (error) => {
+            if (error) console.error(error)
+        })
+    }
+})
+
 bot.on("message", async (message) => {
     if (message.channel.type == "dm"
         || (message.author.bot && message.author.id != bot.user.id)) return
@@ -67,9 +82,6 @@ bot.on("messageReactionAdd", async (messageReaction, user) => {
         } catch (error) { console.log(error) }
     } else if (message.content.startsWith("⚔️ What emoji")) {
         var role = message.content.slice(35)
-        if (!bot.roles[message.guild.id]) {
-            bot.roles[message.guild.id] = {}
-        }
         bot.roles[message.guild.id][role] = messageReaction.emoji.name
         fs.writeFile("./roles.json", JSON.stringify(bot.roles, null, 4), async (error) => {
             if (error) console.error(error)

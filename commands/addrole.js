@@ -14,10 +14,6 @@ module.exports.run = async (bot, message, args) => {
         return
     }
 
-    if (!bot.roles[message_copy.guild.id]) {
-        bot.roles[message_copy.guild.id] = {}
-    }
-
     if (bot.roles[message_copy.guild.id][args[0]]) {
         try {
             let role = args[0]
