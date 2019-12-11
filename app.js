@@ -63,7 +63,6 @@ bot.on("messageReactionAdd", async (messageReaction, user) => {
     const { message } = messageReaction
     if (message.channel.type == "dm"
         || message.author.id != bot.user.id
-        || user.bot
         || message.channel.name == "archive") return
     if (message.content.startsWith("> __**")) {
         var schedule = await createSchedule(bot, message)
