@@ -37,11 +37,7 @@ bot.on("message", async (message) => {
             let custom_emoji = bot.emojis.find(emoji => emoji.name === bot.roles[message.guild.id][role])
             if (custom_emoji) emoji = custom_emoji
             try {
-                if (custom_emoji) {
-                    await message.react(emoji)
-                } else {
-                    await message.react(emoji)
-                }
+                await message.react(emoji)
             } catch (error) { console.error(error) }
         }
         try {
