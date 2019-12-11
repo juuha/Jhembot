@@ -2,10 +2,6 @@ const Config = require('.././config.json')
 
 module.exports = (bot, message) => {
     var signups = {}
-    var static = {
-        no: "",
-        extra: ""
-    }
 
     var signees = new Set()
     var removees = new Set()
@@ -57,6 +53,6 @@ module.exports = (bot, message) => {
     if (!signups.extra) signups.extra = ""
     if (!signups.no) signups.no = ""
     var date = message.content.split('\n')[0].slice(6, 21);
-    let schedule = `> __**${date}**__ \n> **${Config.time}**\n Sign up by clicking one of the corresponding reactions! \n[${signees.size}/10] \`\`\`${roles} \nBackups: ${signups.extra} \n---------------\nCan't make it: ${signups.no}\`\`\``
+    let schedule = `> __**${date}**__ \n> **${Config[message.guild.id].time}**\n Sign up by clicking one of the corresponding reactions! \n[${signees.size}/10] \`\`\`${roles} \nBackups: ${signups.extra} \n---------------\nCan't make it: ${signups.no}\`\`\``
     return schedule
 }
