@@ -1,5 +1,6 @@
 const fs = require("fs")
 const Config = require("../config.json")
+const roles_msg = require("./roles")
 
 module.exports.run = async (bot, message, args) => {
     var message_copy = message
@@ -22,14 +23,20 @@ module.exports.run = async (bot, message, args) => {
     delete bot.roles[message_copy.guild.id][role]
     for (var [id, msg] of message_copy.channel.messages) {
         if (msg.author.id != bot.user.id) continue
-        for (var [id, reaction] of msg.reactions) {
-            if (reaction.emoji != emoji) continue
-            for (var [id, user] of reaction.users) {
-                try {
-                    await reaction.remove(user)
-                } catch (error) { console.error(error) }
+        if (msg.content.startsWith("> __**")) {
+            for (var [id, reaction] of msg.reactions) {
+                if (reaction.emoji != emoji) continue
+                for (var [id, user] of reaction.users) {
+                    try {
+                        await reaction.remove(user)
+                    } catch (error) { console.error(error) }
+                }
             }
+        } else if (!msg.content){
+            var embed = await roles_msg.run(bot, msg, "update")
+            msg.edit(embed)
         }
+        
     }
 
     fs.writeFile("./roles.json", JSON.stringify(bot.roles, null, 4), async (error) => {

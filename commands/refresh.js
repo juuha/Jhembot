@@ -1,5 +1,5 @@
 createSchedule = require("../functions/createSchedule.js")
-const roles = require("./roles")
+const roles_msg = require("./roles")
 
 module.exports.run = async (bot, message, args) => {
     var message_copy = message
@@ -22,7 +22,7 @@ module.exports.run = async (bot, message, args) => {
                 console.error(error)
             }
         } else if (!messag.content) {
-            var embed = await roles.run(bot, message_copy, "update")
+            var embed = await roles_msg.run(bot, messag, "update")
             messag.edit(embed)
         }
     }

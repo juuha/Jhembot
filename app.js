@@ -3,6 +3,7 @@ const Token = require("./token.json")
 const Config = require("./config.json")
 const fs = require("fs")
 createSchedule = require("./functions/createSchedule.js").default
+const roles_msg = require("./commands/roles")
 
 const bot = new Discord.Client({ disableEveryone: true })
 bot.commands = new Discord.Collection()
@@ -90,11 +91,15 @@ bot.on("messageReactionAdd", async (messageReaction, user) => {
             message.delete(Config.deletion_timer)
         })
         for (var [id, msg] of message.channel.messages) {
-            if (msg.author.id == bot.user.id
-                && msg.content.startsWith("> __**")) {
-                try {
-                    await msg.react(messageReaction.emoji)
-                } catch (error) { console.error(error) }
+            if (msg.author.id == bot.user.id) {
+                if (msg.content.startsWith("> __**")) {
+                    try {
+                        await msg.react(messageReaction.emoji)
+                    } catch (error) { console.error(error) }
+                } else if (!msg.content) {
+                    var embed = await roles_msg.run(bot, msg, "update")
+                    msg.edit(embed)
+                }
             }
         }
     }
