@@ -6,57 +6,30 @@ module.exports.run = async (bot, message, args) => {
         message.delete()
     } catch (error) { console.error(error) }
     var found = 0
+    var chann
     for (const [id, channel] of message_copy.guild.channels) {
         if (channel.name == "archive" && channel.type == "text") {
+            chann = channel
             found = 1
         }
     }
     if (!found) {
         try {
-            var chann = await msg.guild.createChannel('archive', { type: "text" })
+            chann = await msg.guild.createChannel('archive', { type: "text" })
         } catch (error) { console.error(error) }
     }
     for (var [id, msg] of message_copy.channel.messages) {
-        if (msg.author.id != bot.user.id
-            || msg.content.startsWith("⚔️")) {
+        if (msg.author.id != bot.user.id || !msg.content.startsWith("> __**")) {
             continue
         }
-        if (msg.content) {
-            for (const [id, channel] of msg.guild.channels) {
-                if (channel.name == "archive" && channel.type == "text") {
-                    try {
-                        await channel.send(msg.content)
-                    } catch (error) {
-                        console.error(error)
-                    } finally {
-                        try {
-                            await msg.delete()
-                        } catch (error) { console.error(error) }
-                    }
-                }
-            }
-
-        } else {
-            for (var [id, channel] of msg.guild.channels) {
-                if (channel.name == "archive" && channel.type == "text") {
-                    for (var embed of msg.embeds) {
-                        const embed2 = new Discord.RichEmbed()
-                            .setTitle(embed.title)
-                            .setDescription(embed.description)
-                            .setColor(embed.color)
-                        try {
-                            await channel.send(embed2)
-
-                        } catch (error) {
-                            console.error(error)
-                        } finally {
-                            try {
-                                await msg.delete()
-                            } catch (error) { console.error(error) }
-                        }
-                    }
-                }
-            }
+        try {
+            await chann.send(msg.content)
+        } catch (error) {
+            console.error(error)
+        } finally {
+            try {
+                await msg.delete()
+            } catch (error) { console.error(error) }
         }
     }
 }
