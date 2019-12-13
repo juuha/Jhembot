@@ -20,7 +20,7 @@ module.exports.run = async (bot, message, args) => {
             let emoji = bot.roles[message_copy.guild.id][role]
             let custom_emoji = bot.emojis.find(emoji => emoji.name === bot.roles[message_copy.guild.id][role])
             if (custom_emoji) emoji = custom_emoji
-            var sent = await message.channel.send(`Role ${role} already exists with emoji ${emoji}, choose another name for the role or remove old role first.`)
+            var sent = await message_copy.channel.send(`Role ${role} already exists with emoji ${emoji}, choose another name for the role or remove old role first.`)
         } catch (error) {
             console.error(error)
         } finally {
