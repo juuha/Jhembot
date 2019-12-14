@@ -52,7 +52,8 @@ module.exports = (bot, message) => {
     }
     if (!signups.extra) signups.extra = ""
     if (!signups.no) signups.no = ""
-    var date = message.content.split('\n')[0].slice(6, 21);
-    let schedule = `> __**${date}**__ \n> **${Config.time[message.guild.id]}**\n Sign up by clicking one of the corresponding reactions! \n[${signees.size}/10] \`\`\`${roles} \nBackups: ${signups.extra} \n---------------\nCan't make it: ${signups.no}\`\`\``
+    var date = message.content.split('\n')[0].slice(6, 21)
+    var time = message.content.split('\n')[1].substring(4).slice(0,-2)
+    let schedule = `> __**${date}**__ \n> **${time}**\n Sign up by clicking one of the corresponding reactions! \n[${signees.size}/10] \`\`\`${roles} \nBackups: ${signups.extra} \n---------------\nCan't make it: ${signups.no}\`\`\``
     return schedule
 }
