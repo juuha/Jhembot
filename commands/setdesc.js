@@ -1,4 +1,4 @@
-const Config = require("../config.json")
+const Description = require("../description.json")
 const fs = require("fs")
 
 module.exports.run = async (bot, message, args) => {
@@ -6,13 +6,13 @@ module.exports.run = async (bot, message, args) => {
     try {
         await message.delete()
     } catch (error) { console.error(error) }
-    Config.time[message_copy.guild.id] = message_copy.content.slice(9)
+    Description[message_copy.guild.id] = message_copy.content.slice(9)
 
-    fs.writeFile("./config.json", JSON.stringify(Config, null, 4), async (error) => {
+    fs.writeFile("../description.json", JSON.stringify(Description, null, 4), async (error) => {
         if (error) console.error(error)
     })
 }
 
 module.exports.help = {
-    name: "settime"
+    name: "setdesc"
 }

@@ -1,6 +1,7 @@
 const Discord = require("discord.js")
 const Token = require("./token.json")
 const Config = require("./config.json")
+const Description = require("./description.json")
 const fs = require("fs")
 createSchedule = require("./functions/createSchedule.js").default
 const roles_msg = require("./commands/roles")
@@ -34,9 +35,9 @@ bot.on("guildCreate", async (guild) => {
             if (error) console.error(error)
         })
     }
-    if (!Config.time[guild.id]) {
-        Config.time[guild.id] = `##Set the default time with !settime <String with time>##`
-        fs.writeFile("./config.json", JSON.stringify(Config, null, 4), async (error) => {
+    if (!Description[guild.id]) {
+        Description[guild.id] = `##Set the default description with !setdesc <description>##`
+        fs.writeFile("./description.json", JSON.stringify(Description, null, 4), async (error) => {
             if (error) console.error(error)
         })
     }

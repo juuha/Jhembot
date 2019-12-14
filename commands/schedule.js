@@ -1,4 +1,5 @@
 const Config = require("../config.json")
+const Description = require("../description.json")
 
 module.exports.run = async (bot, message, args) => {
     var message_copy = message
@@ -21,13 +22,13 @@ module.exports.run = async (bot, message, args) => {
         day = week[args[0]]
         var description = message_copy.content.slice(10).split(/(?<=^\S+)\s/)[1]
         if (!description) {
-            description = Config.time[message_copy.guild.id]
+            description = Description[message_copy.guild.id]
         }
     } else {
         day = week[message_copy.content.split(" ")[0].slice(1)]
         var description = message_copy.content.split(/(?<=^\S+)\s/)[1]
         if (!description) {
-            description = Config.time[message_copy.guild.id]
+            description = Description[message_copy.guild.id]
         }
     }
 
