@@ -17,7 +17,7 @@ module.exports.run = async (bot, message, args) => {
     }
     Description[message_copy.guild.id] = desc
 
-    fs.writeFile("../description.json", JSON.stringify(Description, null, 4), async (error) => {
+    fs.writeFile("./description.json", JSON.stringify(Description, null, 4), async (error) => {
         if (error) console.error(error)
     })
 
