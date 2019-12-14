@@ -1,5 +1,4 @@
 {
     "prefix": "!",
-    "deletion_timer": 10000,
-    "time": {}
+    "deletion_timer": 10000
 }
