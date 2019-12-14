@@ -17,8 +17,8 @@ Jhembot is a discort bot that helps scheduling raids. It creates a schedule fill
 
 ### Prerequisites
 
-Node.js 6.0.0 or newer is required.
-Discord account (If you have one already, no need to create a separate one for the bot).
+- Node.js 6.0.0 or newer is required.
+- Discord account (If you have one already, no need to create a separate one for the bot).
 
 ### Installing
 
