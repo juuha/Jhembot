@@ -1,10 +1,10 @@
 const Discord = require("discord.js")
 const Token = require("./token.json")
 const Config = require("./config.json")
-const Description = require("./description.json")
-const fs = require("fs")
-createSchedule = require("./functions/createSchedule.js").default
 const roles_msg = require("./commands/roles")
+const fs = require("fs")
+createSchedule = require("./functions/createSchedule.js")
+initGuild = require("./functions/initGuild.js")
 
 const bot = new Discord.Client({ disableEveryone: true })
 bot.commands = new Discord.Collection()
@@ -25,22 +25,14 @@ bot.roles = require('./roles.json')
 
 bot.on("ready", async () => {
     console.log(`${bot.user.username} is online and ready to serve! Running on ${bot.guilds.size} servers!`)
+    for (var [id, guild] of bot.guilds) {
+        initGuild(bot, guild)
+    }
     bot.user.setActivity("!help", { type: "LISTENING" })
 })
 
 bot.on("guildCreate", async (guild) => {
-    if (!bot.roles[guild.id]) {
-        bot.roles[guild.id] = {}
-        fs.writeFile("./roles.json", JSON.stringify(bot.roles, null, 4), async (error) => {
-            if (error) console.error(error)
-        })
-    }
-    if (!Description[guild.id]) {
-        Description[guild.id] = `##Set the default description with !setdesc <description>##`
-        fs.writeFile("./description.json", JSON.stringify(Description, null, 4), async (error) => {
-            if (error) console.error(error)
-        })
-    }
+    initGuild(bot, guild)
 })
 
 bot.on("message", async (message) => {
