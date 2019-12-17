@@ -71,9 +71,11 @@ bot.on("messageReactionAdd", async (messageReaction, user) => {
         || message.channel.name == "archive") return
     if (message.content.startsWith("> __**")) {
         var schedule = await createSchedule(bot, message)
-        try {
-            await message.edit(schedule)
-        } catch (error) { console.log(error) }
+        if (message.content != schedule) {
+            try {
+                await message.edit(schedule)
+            } catch (error) { console.log(error) }
+        }
     } else if (message.content.startsWith("⚔️ What emoji")) {
         var role = message.content.slice(35)
         bot.roles[message.guild.id][role] = messageReaction.emoji.name

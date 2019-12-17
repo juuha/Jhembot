@@ -15,11 +15,11 @@ module.exports.run = async (bot, message, args) => {
                     await reaction.fetchUsers()
                 } catch (error) { console.error(error) }
             }
-            try {
-                let schedule = createSchedule(bot, messag)
-                await messag.edit(schedule)
-            } catch (error) {
-                console.error(error)
+            let schedule = createSchedule(bot, messag)
+            if (messag.content != schedule) {
+                try {
+                    await messag.edit(schedule)
+                } catch (error) { console.error(error) }
             }
         } else if (!messag.content) {
             var embed = await roles_msg.run(bot, messag, "update")
