@@ -16,7 +16,6 @@ module.exports = async (bot, message) => {
             }
             if (reaction.emoji.name == "♾️") {
                 emotion = "extra"
-                signees.add(user.username)
             } else if (reaction.emoji.name == "⛔") {
                 emotion = "no"
                 removees.add(user.username)
