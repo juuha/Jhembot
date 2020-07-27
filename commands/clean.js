@@ -5,6 +5,12 @@ module.exports.run = async (bot, message, args) => {
             try {
                 await messag.delete()
             } catch (error) { console.error(error) }
+        } else if (messag.author.id = bot.user.id){
+            for (const [id, reaction] of messag.reactions.cache) {
+                try {
+                    await reaction.users.fetch()
+                } catch (error) { console.error(error) }
+            }
         }
     }
 }
