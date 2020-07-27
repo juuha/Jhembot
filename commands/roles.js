@@ -10,7 +10,7 @@ module.exports.run = async (bot, message, args) => {
     let roles = ""
     for (role in bot.roles[message_copy.guild.id]) {
         let emoji = bot.roles[message_copy.guild.id][role]
-        let custom_emoji = bot.emojis.find(emoji => emoji.name === bot.roles[message.guild.id][role])
+        let custom_emoji = bot.emojis.cache.find(emoji => emoji.name === bot.roles[message.guild.id][role])
         if (custom_emoji) emoji = custom_emoji
         if (roles == "") {
             roles = `${role} : ${emoji}`
@@ -18,7 +18,7 @@ module.exports.run = async (bot, message, args) => {
             roles = roles + `\n${role} : ${emoji}`
         }
     }
-    const embed = new Discord.RichEmbed()
+    const embed = new Discord.MessageEmbed()
         .setTitle(`🛡️ Current roles 🛡️`)
         .setColor(0xFF0000)
         .setDescription(roles)

@@ -6,7 +6,7 @@ const fs = require("fs")
 createSchedule = require("./functions/createSchedule.js")
 initGuild = require("./functions/initGuild.js")
 
-const bot = new Discord.Client({ disableEveryone: true })
+const bot = new Discord.Client({ disableEveryone: true, partials: ['MESSAGE', 'REACTION'] })
 bot.commands = new Discord.Collection()
 fs.readdir("./commands/", (error, files) => {
     if (error) console.error(error)
@@ -15,7 +15,7 @@ fs.readdir("./commands/", (error, files) => {
     for (const jsfile of jsfiles) {
         let props = require(`./commands/${jsfile}`)
         for (const key in props.help) {
-            console.log(`${props.help[key]} command loaded.`)
+            //console.log(`${props.help[key]} command loaded.`)
             bot.commands.set(props.help[key], props)
         }
     }
@@ -24,11 +24,13 @@ fs.readdir("./commands/", (error, files) => {
 bot.roles = require('./roles.json')
 
 bot.on("ready", async () => {
-    console.log(`${bot.user.username} is online and ready to serve! Running on ${bot.guilds.size} servers!`)
-    for (var [id, guild] of bot.guilds) {
+    console.log(`${bot.user.username} is online and ready to serve! Running on ${bot.guilds.cache.size} servers!`)
+
+    for (var [id, guild] of bot.guilds.cache) {
         initGuild(bot, guild)
     }
     bot.user.setActivity("!help", { type: "LISTENING" })
+    
 })
 
 bot.on("guildCreate", async (guild) => {
@@ -36,6 +38,7 @@ bot.on("guildCreate", async (guild) => {
 })
 
 bot.on("message", async (message) => {
+    if (message.partial) await message.fetch()
     if (message.channel.type == "dm"
         || (message.author.bot && message.author.id != bot.user.id)) return
     if (message.author.id == bot.user.id
@@ -43,7 +46,7 @@ bot.on("message", async (message) => {
         && message.content.startsWith("> __**")) {
         for (role in bot.roles[message.guild.id]) {
             let emoji = bot.roles[message.guild.id][role]
-            let custom_emoji = bot.emojis.find(emoji => emoji.name === bot.roles[message.guild.id][role])
+            let custom_emoji = bot.emojis.cache.find(emoji => emoji.name === bot.roles[message.guild.id][role])
             if (custom_emoji) emoji = custom_emoji
             try {
                 await message.react(emoji)
@@ -65,6 +68,16 @@ bot.on("message", async (message) => {
 })
 
 bot.on("messageReactionAdd", async (messageReaction, user) => {
+    if (messageReaction.message.partial) {
+        try {
+            await messageReaction.message.fetch()
+        } catch (error) { console.error(error) }
+        for (const [id, reaction] of messageReaction.message.reactions.cache) {
+            try {
+                await reaction.users.fetch()
+            } catch (error) { console.error(error) }
+        }
+    }
     const { message } = messageReaction
     if (message.channel.type == "dm"
         || message.author.id != bot.user.id
@@ -82,13 +95,15 @@ bot.on("messageReactionAdd", async (messageReaction, user) => {
         fs.writeFile("./roles.json", JSON.stringify(bot.roles, null, 4), async (error) => {
             if (error) console.error(error)
             var sent = await message.channel.send(`⚔️ Role \"${role}\" added with emoji ${messageReaction.emoji}`)
-            sent.delete(Config.deletion_timer)
-            message.delete(Config.deletion_timer)
+            sent.delete({timeout: Config.deletion_timer})
+            message.delete({timeout: Config.deletion_timer})
         })
-        for (var [id, msg] of message.channel.messages) {
+        await message.channel.messages.fetch()
+        for (var [id, msg] of message.channel.messages.cache) {
             if (msg.author.id == bot.user.id) {
                 if (msg.content.startsWith("> __**")) {
                     try {
+                        console.log(messageReaction.emoji)
                         await msg.react(messageReaction.emoji)
                     } catch (error) { console.error(error) }
                 } else if (!msg.content) {
@@ -101,12 +116,14 @@ bot.on("messageReactionAdd", async (messageReaction, user) => {
 })
 
 bot.on("messageReactionRemove", async (messageReaction, user) => {
+    if (messageReaction.message.partial) await messageReaction.message.fetch()
+    if (messageReaction.partial) await messageReaction.fetch()
     const { message } = messageReaction
     if (message.channel.type == "dm"
         || message.author.id != bot.user.id
         || message.channel.name == "archive"
         || !message.content.startsWith("> __**")) return
-    var schedule = createSchedule(bot, message)
+    var schedule = await createSchedule(bot, message)
     try {
         await message.edit(schedule)
     } catch (error) { console.log(error) }

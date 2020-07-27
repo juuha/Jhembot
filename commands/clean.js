@@ -1,5 +1,5 @@
 module.exports.run = async (bot, message, args) => {
-    var messages = await message.channel.fetchMessages({ limit: 100 })
+    var messages = await message.channel.messages.fetch({ limit: 100 })
     for ([id, messag] of messages) {
         if (messag.content.startsWith("!")) {
             try {

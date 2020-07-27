@@ -9,7 +9,7 @@ module.exports.run = async (bot, message, args) => {
     if (!args[0]) {
         try {
             var sent = await message_copy.channel.send(`⚔️ You need to give the role a name!`)
-            await sent.delete(Config.deletion_timer)
+            await sent.delete({timeout: Config.deletion_timer})
         } catch (error) { console.error(error) }
         return
     }
@@ -18,13 +18,13 @@ module.exports.run = async (bot, message, args) => {
         try {
             let role = args[0]
             let emoji = bot.roles[message_copy.guild.id][role]
-            let custom_emoji = bot.emojis.find(emoji => emoji.name === bot.roles[message_copy.guild.id][role])
+            let custom_emoji = bot.emojis.cache.find(emoji => emoji.name === bot.roles[message_copy.guild.id][role])
             if (custom_emoji) emoji = custom_emoji
             var sent = await message_copy.channel.send(`Role ${role} already exists with emoji ${emoji}, choose another name for the role or remove old role first.`)
         } catch (error) {
             console.error(error)
         } finally {
-            await sent.delete(Config.deletion_timer)
+            await sent.delete({timeout: Config.deletion_timer})
         }
         return
     }

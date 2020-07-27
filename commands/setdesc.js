@@ -11,7 +11,7 @@ module.exports.run = async (bot, message, args) => {
     if (desc == "") {
         try {
             var sent = await message_copy.channel.send(`⚔️ Default description can't be empty.`)
-            await sent.delete(Config.deletion_timer)
+            await sent.delete({timeout: Config.deletion_timer})
         } catch (error) { console.error(error) }
         return
     }
@@ -23,7 +23,7 @@ module.exports.run = async (bot, message, args) => {
 
     try {
         var sent = await message_copy.channel.send(`⚔️ Default description has been changed to "${desc}"`)
-        await sent.delete(Config.deletion_timer)
+        await sent.delete({timeout: Config.deletion_timer})
     } catch (error) { console.error(error) }
 }
 

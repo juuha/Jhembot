@@ -4,7 +4,7 @@ module.exports.run = async (bot, message, args) => {
         await message.delete()
     } catch (error) { console.error(error) }
 
-    let msgs = await message_copy.channel.messages.filter(msg => msg.author.id == bot.user.id)
+    let msgs = await message_copy.channel.messages.cache.filter(msg => msg.author.id == bot.user.id)
     for (var [id, msg] of msgs) {
         try {
             await msg.delete()

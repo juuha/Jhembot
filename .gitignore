@@ -1,2 +1,4 @@
 token.json
 roles.json
+node_modules/
+package-lock.json

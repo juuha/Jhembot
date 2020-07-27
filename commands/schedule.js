@@ -43,7 +43,7 @@ module.exports.run = async (bot, message, args) => {
         var error_msg = "⚔️ Usage of command is !schedule <date> <description>. Use !help for more information."
         try {
             var sent = await message_copy.channel.send(error_msg)
-            await sent.delete(Config.deletion_timer)
+            await sent.delete({timeout: Config.deletion_timer})
         } catch (error) { console.error(error) }
         return
     }

@@ -7,7 +7,7 @@ module.exports.run = async (bot, message, args) => {
     } catch (error) { console.error(error) }
     var found = 0
     var chann
-    for (const [id, channel] of message_copy.guild.channels) {
+    for (const [id, channel] of message_copy.guild.channels.cache) {
         if (channel.name == "archive" && channel.type == "text") {
             chann = channel
             found = 1
@@ -18,7 +18,8 @@ module.exports.run = async (bot, message, args) => {
             chann = await msg.guild.createChannel('archive', { type: "text" })
         } catch (error) { console.error(error) }
     }
-    for (var [id, msg] of message_copy.channel.messages) {
+    await message_copy.channel.messages.fetch()
+    for (var [id, msg] of message_copy.channel.messages.cache) {
         if (msg.author.id != bot.user.id || !msg.content.startsWith("> __**")) {
             continue
         }

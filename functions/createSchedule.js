@@ -1,10 +1,10 @@
-module.exports = (bot, message) => {
+module.exports = async (bot, message) => {
     var signups = {}
 
     var signees = new Set()
     var removees = new Set()
-    for (var [id, reaction] of message.reactions) {
-        for (var [id, user] of reaction.users) {
+    for (var [id, reaction] of message.reactions.cache) {
+        for (var [id, user] of reaction.users.cache) {
             if (user.id == bot.user.id) continue
             var emotion = ""
             for (role in bot.roles[message.guild.id]) {
@@ -31,12 +31,15 @@ module.exports = (bot, message) => {
     }
 
     if (removees.size > 0) {
-        for (var [id, reaction] of message.reactions) {
-            for (var [id, user] of reaction.users) {
+        for (var [m_id, reaction] of message.reactions.cache) {
+            var reactionUserManager = reaction.users
+            for (var [r_id, user] of reaction.users.cache) {      
+                if (user.id == bot.user.id) continue
                 if (removees.has(user.username) && reaction.emoji.name != "⛔") {
-                    reaction.remove(user)
+                    reactionUserManager.remove(user)
                 }
             }
+
         }
     }
     let roles = ""

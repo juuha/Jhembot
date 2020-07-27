@@ -6,13 +6,13 @@ module.exports.run = async (bot, message, args) => {
     try {
         message.delete()
     } catch (error) { console.error(error) }
-    let messages = await message_copy.channel.fetchMessages({ limit: 100 })
+    let messages = await message_copy.channel.messages.fetch({ limit: 100 })
     for (const [id, messag] of messages) {
         if (messag.author.id != bot.user.id || messag.content.startsWith("⚔️")) continue
         if (messag.content.startsWith("> __**")) {
-            for (const [id, reaction] of messag.reactions) {
+            for (const [id, reaction] of messag.reactions.cache) {
                 try {
-                    await reaction.fetchUsers()
+                    await reaction.users.fetch()
                 } catch (error) { console.error(error) }
             }
             let schedule = createSchedule(bot, messag)
